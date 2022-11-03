@@ -1,0 +1,45 @@
+{% extends "booking_rooms_app/Base.html" %}
+
+{% block content %}
+<div class="container">
+<div class="card mt-5 border border-info" style="width: auto;" >
+<!--  <img src="..." class="card-img-top" alt="...">-->
+  <div class="card-body">
+    <h5 class="card-title">{{ room.name }}</h5>
+    <p class="card-text">Seats: {{ room.seats }}</p>
+      <p class="card-text">Avalibility:{% if room.reserved %}
+                                Reserved
+                                {% else %}
+                                Available
+                                {% endif %}<br>
+                Projector: {% if room.projector == True %}
+                        Yes
+                        {% endif %}
+                        {% if room.projector == False %}
+                        No
+                        {% endif %}
+      </p>
+      <div class="btn-group">
+            <a href="{% url 'edit-room' %}?id={{ room.id }}" class="btn btn-info text-white">Edit</a>
+      <a href="{% url 'delete-room' %}?id={{ room.id }} " class="btn btn-info text-white">Delete</a>
+      <a href="{% url 'room-reserve' %}?id={{ room.id }}" class="btn btn-info text-white">Reserve</a>
+</div>
+      </div>
+    </div>
+    </div>
+<div class="container">
+<div class="card mt-5 border border-info" style="width: auto;" >
+<!--  <img src="..." class="card-img-top" alt="...">-->
+  <div class="card-body">
+    <h5 class="card-title">Reservations:</h5>
+      <p class="card-text"></p>
+    {% for reservation in reservations %}
+        <li> {{ reservation.date }}
+             <p>Comment: {{ reservation.comment }}</p>
+        </li>
+      {% endfor %}
+  </div>
+</div>
+</div>
+
+{% endblock %}

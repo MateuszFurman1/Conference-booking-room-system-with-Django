@@ -1,0 +1,53 @@
+{% extends "booking_rooms_app/Base.html" %}
+
+{% block content %}
+<div class="container text-center">
+<h1>Search room</h1>
+    <div class="form-group">
+    <form action="" method="GET"> {% csrf_token %}
+        <p><label for="room-name">Room name</label>
+            <input type="text" id="room-name" name="room-name"></p>
+        <p><label for="seats">Min. Capacity</label>
+            <input type="text" id="seats" name="seats"></p>
+        <p><input type="checkbox" id="projector" name="projector">
+            <label for="projector">Projector Avalibility</label></p>
+        <input type="submit" class="btn btn-info text-white" name="Send">
+        <input type="submit" class="btn btn-info text-white" name="Cancel Search" value="Cancel Search">
+    </form>
+    </div>
+</div>
+<div class="container">
+    {% for room in rooms %}
+<div class="card mt-5 border border-info" style="width: auto;" >
+ <div class="card-body">
+    <h5 class="card-title">{{ room.name }}</h5>
+    <p class="card-text">Seats: {{ room.seats }}</p>
+      <p class="card-text"></p>
+
+             <p>Projector:{% if room.projector == True %}
+                        Yes
+                        {% endif %}
+                        {% if room.projector == False %}
+                        No
+                        {% endif %}</p>
+                {% if room.reserved %}
+                Reservation: Reserved
+                {% else %}
+                Reservation: Avalibility
+                {% endif %}<br>
+<div class="btn-group mt-3">
+            <a href="{% url 'edit-room' %}?id={{ room.id }} " class="btn btn-info text-white"> Edit- </a>
+            <a href="{% url 'delete-room' %}?id={{ room.id }} " class="btn btn-info text-white"> Delete- </a>
+            <a href="{% url 'room-reserve' %}?id={{ room.id }} " class="btn btn-info text-white"> Reserve </a>
+</div>
+</div>
+       </div>
+
+            {% empty %}
+                <p>Brak dostępnych sal</p>
+            {% endfor %}
+
+</div>
+
+
+{% endblock %}

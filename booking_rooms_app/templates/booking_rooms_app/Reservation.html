@@ -1,0 +1,31 @@
+{% extends "booking_rooms_app/Base.html" %}
+
+{% block content %}
+<div class="container text-center">
+    <h1>Add reservation</h1>
+<div class="form-group">
+    <form method="POST"> {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-info text-white" value="Send">
+        <input type="hidden" name="id" value="{{ room.id }}">
+    </form>
+</div>
+</div>
+
+<div class="container">
+<div class="card mt-5 border border-info" style="width: auto;" >
+<!--  <img src="..." class="card-img-top" alt="...">-->
+  <div class="card-body">
+    <h5 class="card-title">All reservations:</h5>
+      <p class="card-text"></p>
+    {% for reservation in reservations %}
+        <li> {{ reservation.date }}
+             <p>Comment: {{ reservation.comment }} <br>
+            Room: {{ reservation.room }}</p>
+        </li>
+      {% endfor %}
+  </div>
+</div>
+</div>
+
+{% endblock %}

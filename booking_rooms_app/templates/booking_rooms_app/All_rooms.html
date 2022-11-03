@@ -1,0 +1,30 @@
+{% extends "booking_rooms_app/Base.html" %}
+
+{% block content %}
+<div class="container">
+    {% for room in rooms %}
+<div class="card mt-5 border border-info" style="width: auto;" >
+<!--  <img src="..." class="card-img-top" alt="...">-->
+  <div class="card-body">
+    <h5 class="card-title">{{ room.name }}</h5>
+    <p class="card-text">Seats: {{ room.seats }}</p>
+      <p class="card-text">Avalibility:{% if room.reserved %}
+                                Reserved
+                                {% else %}
+                                Available
+                                {% endif %}<br>
+                Projector: {% if room.projector == True %}
+                        Yes
+                        {% endif %}
+                        {% if room.projector == False %}
+                        No
+                        {% endif %}
+      </p>
+
+    <a href="{% url 'detail-room' %}?id={{ room.id }} " class="btn btn-info text-white">Go to</a>
+  </div>
+</div>
+
+{% endfor %}
+</div>
+{% endblock %}
