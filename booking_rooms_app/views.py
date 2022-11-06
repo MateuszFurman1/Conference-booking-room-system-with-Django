@@ -1,11 +1,14 @@
 import datetime
 
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.http import HttpResponse
-from booking_rooms_app.form import RoomForm, ReservationForm
+from booking_rooms_app.form import RoomForm, ReservationForm, CommentForm, LoginForm, RegistrationForm
 from booking_rooms_app.models import Room, Reservation
 from django.urls import reverse
+
 
 class RoomView(View):
     def get(self, request):
@@ -23,28 +26,25 @@ class RoomView(View):
             }
         return render(request, 'booking_rooms_app/Base_extend.html', context)
 
+
 class CreateRoomView(View):
     def get(self, request):
         form = RoomForm()
         context = {
             'form': form
         }
-        return render(request, 'booking_rooms_app/create.html', context)
+        return render(request, 'booking_rooms_app/form.html', context)
 
     def post(self, request):
-        rooms = Room.objects.all()
-        name = request.POST.get('name')
-        seats = request.POST.get('seats')
-        for i in rooms:
-            if i.name == name:
-                return HttpResponse('Room with this name already exist')
-        if int(seats) < 0:
-            return HttpResponse('Please set correct number of seats')
-        else:
-            form = RoomForm(request.POST)
-            if form.is_valid():
-                form.save()
-        return redirect(reverse('home'))
+        form = RoomForm(request.POST)
+        context = {
+            'form': form
+        }
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('home'))
+        return render(request, 'booking_rooms_app/create.html', context)
+
 
 class AllRoomsView(View):
     def get(self, request):
@@ -59,8 +59,9 @@ class AllRoomsView(View):
             context = {
                 'rooms': rooms,
                 'date': date
-                }
+            }
             return render(request, 'booking_rooms_app/All_rooms.html', context)
+
 
 class EditRoomView(View):
     def get(self, request):
@@ -90,12 +91,14 @@ class EditRoomView(View):
                 room.save()
             return redirect(reverse('all-rooms'))
 
+
 class DeleteRoomView(View):
     def get(self, request):
         id = request.GET.get('id')
         room = get_object_or_404(Room, pk=id)
         room.delete()
         return redirect(reverse('all-rooms'))
+
 
 class ReservationView(View):
     def get(self, request):
@@ -128,6 +131,7 @@ class ReservationView(View):
             form.save()
         return redirect(reverse('all-rooms'))
 
+
 class DetailView(View):
     def get(self, request):
         id = request.GET.get('id')
@@ -139,6 +143,7 @@ class DetailView(View):
             'reservations': reservations
         }
         return render(request, 'booking_rooms_app/Detail_view.html', context)
+
 
 class SearchView(View):
     def get(self, request):
@@ -164,3 +169,71 @@ class SearchView(View):
             "date": date
         }
         return render(request, "booking_rooms_app/Search.html", context)
+
+
+class AddCommentView(LoginRequiredMixin,
+                     View):
+    def post(self, request):
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            return redirect('home')
+
+
+class LoginView(View):
+    def get(self, request):
+        form = LoginForm()
+
+        ctx = {
+            "form": form
+        }
+        return render(request, 'booking_rooms_app/form.html', ctx)
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        message = ''
+        ctx = {
+            "form": form,
+            'message': message
+        }
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            message = "Nie poprawne hasło uzytkownika"
+            ctx = {
+                "form": form,
+                'message': message
+            }
+        return render(request, 'booking_rooms_app/form.html', ctx)
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('login')
+
+
+class RegistrationView(View):
+    def get(self, request):
+        form = RegistrationForm()
+        ctx = {
+            "form": form
+        }
+        return render(request, "booking_rooms_app/form.html", ctx)
+
+    def post(self, request):
+        form = RegistrationForm(request.POST)
+        ctx = {
+            "form": form,
+        }
+        if form.is_valid():
+            u = form.save(commit=False)
+            u.set_password(form.cleaned_data['password'])
+            u.save()
+            return redirect('home')
+
+        return render(request, 'booking_rooms_app/form.html', ctx)

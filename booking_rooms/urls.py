@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, re_path
 
 from booking_rooms_app.views import RoomView, CreateRoomView, AllRoomsView, DetailView, EditRoomView, DeleteRoomView, \
-    ReservationView, SearchView
+    ReservationView, SearchView, AddCommentView, LoginView, LogoutView, RegistrationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +28,9 @@ urlpatterns = [
     re_path(r'^edit-room', EditRoomView.as_view(), name="edit-room"),
     re_path(r'^delete-room', DeleteRoomView.as_view(), name='delete-room'),
     re_path(r'^room-reserve', ReservationView.as_view(), name='room-reserve'),
-    re_path(r'^search-room', SearchView.as_view(), name='search-room')
+    re_path(r'^search-room', SearchView.as_view(), name='search-room'),
+    path('AddComment/<int:room_id>/', AddCommentView.as_view(), name='add-comment'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('reistration/', RegistrationView.as_view(), name='registration')
 ]
