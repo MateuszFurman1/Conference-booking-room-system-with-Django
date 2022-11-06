@@ -1,6 +1,23 @@
 {% extends "booking_rooms_app/Base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
+    <div class="container text-center bg-danger" style="width: max-content">
+        <h4>{{ message }}</h4>
+    </div>
+<form action="{% url 'add-comment' %}" class="form-label text-center" method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" class="btn btn-primary">
+</form>
 
+    <div class="card-body">
+        <h5 class="card-title">Comments:</h5>
+        <p class="card-text"></p>
+        {% for comment in comments %}
+        <li> {{ comment.author }} {{ comment.date }}
+             <p>Comment: {{ comment.text }}</p>
+        </li>
+      {% endfor %}
+    </div>
 
 {% endblock %}

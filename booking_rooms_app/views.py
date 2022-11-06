@@ -1,13 +1,17 @@
 import datetime
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.http import HttpResponse
+from django.views.generic import CreateView
+
 from booking_rooms_app.form import RoomForm, ReservationForm, CommentForm, LoginForm, RegistrationForm
-from booking_rooms_app.models import Room, Reservation
-from django.urls import reverse
+from booking_rooms_app.models import Room, Reservation, Comment
+from django.urls import reverse, reverse_lazy
 
 
 class RoomView(View):
@@ -27,6 +31,7 @@ class RoomView(View):
         return render(request, 'booking_rooms_app/Base_extend.html', context)
 
 
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class CreateRoomView(View):
     def get(self, request):
         form = RoomForm()
@@ -63,7 +68,8 @@ class AllRoomsView(View):
             return render(request, 'booking_rooms_app/All_rooms.html', context)
 
 
-class EditRoomView(View):
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class EditRoomView(LoginRequiredMixin, View):
     def get(self, request):
         id = request.GET.get('id')
         room = get_object_or_404(Room, pk=id)
@@ -92,6 +98,7 @@ class EditRoomView(View):
             return redirect(reverse('all-rooms'))
 
 
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class DeleteRoomView(View):
     def get(self, request):
         id = request.GET.get('id')
@@ -100,11 +107,12 @@ class DeleteRoomView(View):
         return redirect(reverse('all-rooms'))
 
 
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class ReservationView(View):
     def get(self, request):
         id = request.GET.get('id')
         room = get_object_or_404(Room, pk=id)
-        form = ReservationForm(request.GET or None)
+        form = ReservationForm()
         reservations = room.reservation_set.filter(date__gte=str(datetime.date.today())).order_by('date')
         date = datetime.date.today()
         context = {
@@ -171,15 +179,6 @@ class SearchView(View):
         return render(request, "booking_rooms_app/Search.html", context)
 
 
-class AddCommentView(LoginRequiredMixin,
-                     View):
-    def post(self, request):
-        form = CommentForm(request.POST)
-
-        if form.is_valid():
-            return redirect('home')
-
-
 class LoginView(View):
     def get(self, request):
         form = LoginForm()
@@ -203,7 +202,7 @@ class LoginView(View):
             if user is not None:
                 login(request, user)
                 return redirect('home')
-            message = "Nie poprawne hasło uzytkownika"
+            message = "Wrong name or password!"
             ctx = {
                 "form": form,
                 'message': message
@@ -234,6 +233,28 @@ class RegistrationView(View):
             u = form.save(commit=False)
             u.set_password(form.cleaned_data['password'])
             u.save()
-            return redirect('home')
+            return redirect('login')
 
         return render(request, 'booking_rooms_app/form.html', ctx)
+
+
+class AboutView(View):
+    def get(self, request):
+        form = CommentForm()
+        comments = Comment.objects.all()
+        ctx = {
+            'form': form,
+            'comments': comments
+        }
+        return render(request, 'booking_rooms_app/About.html', ctx)
+
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+class AddCommentView(View):
+    def post(self, request):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.save()
+            return redirect('about')
