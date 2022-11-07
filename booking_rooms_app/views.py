@@ -182,18 +182,17 @@ class SearchView(View):
 class LoginView(View):
     def get(self, request):
         form = LoginForm()
-
+        page = 'login'
         ctx = {
-            "form": form
+            "form": form,
+            'page': page
         }
         return render(request, 'booking_rooms_app/form.html', ctx)
 
     def post(self, request):
         form = LoginForm(request.POST)
-        message = ''
         ctx = {
             "form": form,
-            'message': message
         }
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -213,15 +212,17 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        messages.info(request, "Logout succesfully")
+        messages.info(request, "Logout successfully")
         return redirect('login')
 
 
 class RegistrationView(View):
     def get(self, request):
         form = RegistrationForm()
+        page = 'registration'
         ctx = {
-            "form": form
+            "form": form,
+            'page': page
         }
         return render(request, "booking_rooms_app/form.html", ctx)
 
