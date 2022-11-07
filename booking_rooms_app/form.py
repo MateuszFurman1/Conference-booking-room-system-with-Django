@@ -6,6 +6,11 @@ from django.forms import SelectDateWidget
 from .models import Room, Reservation, Comment
 
 
+def validate_seats(value):
+    if value < 1:
+        raise ValidationError("Please set correct seats number")
+
+
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
@@ -14,6 +19,11 @@ class RoomForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': "form-control"}),
             'seats': forms.NumberInput(attrs={'class': "form-control"}),
         }
+    def clean(self):
+        cleaned_data = super().clean()
+        seats = cleaned_data['seats']
+        if seats < 1:
+            raise forms.ValidationError("This is not valid seats number")
 
 
 class ReservationForm(forms.ModelForm):
@@ -30,6 +40,9 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['text']
+        widgets = {
+            'text': forms.Textarea(attrs={'class': "form-control"}),
+        }
 
 
 class LoginForm(forms.Form):
@@ -44,6 +57,9 @@ class RegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username']
+        widgets = {
+            'username': forms.Textarea(attrs={'class': "form-control"}),
+        }
 
     def clean(self):
         cleaned_data = super().clean()

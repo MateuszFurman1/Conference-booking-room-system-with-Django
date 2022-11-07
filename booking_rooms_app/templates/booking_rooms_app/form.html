@@ -1,9 +1,7 @@
 {% extends 'booking_rooms_app/Base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="container text-center bg-danger" style="width: max-content">
-        <h4>{{ message }}</h4>
-    </div>
+
 <form action="" class="form-label text-center" method="POST">
     {% csrf_token %}
     {{ form|crispy }}

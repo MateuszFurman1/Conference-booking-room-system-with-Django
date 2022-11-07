@@ -6,7 +6,7 @@ class Room(models.Model):
     name = models.CharField(max_length=255, unique=True)
     seats = models.PositiveIntegerField(null=False)
     projector = models.BooleanField(default=False)
-    # participants = models.
+    # host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
