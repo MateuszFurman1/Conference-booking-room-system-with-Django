@@ -1,4 +1,5 @@
 import datetime
+from django.contrib import messages
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -7,7 +8,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.http import HttpResponse
-from django.views.generic import CreateView
 
 from booking_rooms_app.form import RoomForm, ReservationForm, CommentForm, LoginForm, RegistrationForm
 from booking_rooms_app.models import Room, Reservation, Comment
@@ -46,7 +46,8 @@ class CreateRoomView(View):
             'form': form
         }
         if form.is_valid():
-            form.save()
+            t = form.save()
+            messages.success(request, f"{t.name} has been added")
             return redirect(reverse('home'))
         return render(request, 'booking_rooms_app/create.html', context)
 
@@ -82,20 +83,16 @@ class EditRoomView(LoginRequiredMixin, View):
 
     def post(self, request):
         id = request.POST.get('id')
-        rooms = Room.objects.all()
         room = get_object_or_404(Room, pk=id)
-        name = request.POST.get('name')
-        seats = request.POST.get('seats')
-        for i in rooms:
-            if i.name == name:
-                return HttpResponse('Room with this name already exist')
-        if int(seats) < 0:
-            return HttpResponse('Please set correct number of seats')
-        else:
-            form = RoomForm(request.POST or None, instance=room)
-            if form.is_valid():
-                room.save()
+        form = RoomForm(request.POST or None, instance=room)
+        ctx = {
+            'form': form
+        }
+        if form.is_valid():
+            room.save()
+            messages.success(request, f"{room} has been updated")
             return redirect(reverse('all-rooms'))
+        return render(request, 'booking_rooms_app/Edit_view.html', ctx)
 
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
@@ -104,6 +101,7 @@ class DeleteRoomView(View):
         id = request.GET.get('id')
         room = get_object_or_404(Room, pk=id)
         room.delete()
+        messages.success(request, f"{room} has been deleted")
         return redirect(reverse('all-rooms'))
 
 
@@ -121,6 +119,7 @@ class ReservationView(View):
             'reservations': reservations,
             'date': date
         }
+
         return render(request, 'booking_rooms_app/Reservation.html', context)
 
     def post(self, request):
@@ -133,10 +132,11 @@ class ReservationView(View):
 
         if form.is_valid():
             if Reservation.objects.filter(room=room, date=form.instance.date):
-                return HttpResponse('Reservation exist')
+                return messages.error('Reservation exist')
             elif form.instance.date < datetime.date.today():
-                return HttpResponse('Date is from the past')
+                return messages.error('Date is from the past')
             form.save()
+            messages.success(request, f"Reservation has been made")
         return redirect(reverse('all-rooms'))
 
 
@@ -201,11 +201,11 @@ class LoginView(View):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
+                messages.info(request, "Login successfully")
                 return redirect('home')
-            message = "Wrong name or password!"
+            messages.error(request, "Wrong name or password!")
             ctx = {
-                "form": form,
-                'message': message
+                "form": form
             }
         return render(request, 'booking_rooms_app/form.html', ctx)
 
@@ -213,6 +213,7 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
+        messages.info(request, "Logout succesfully")
         return redirect('login')
 
 
@@ -230,9 +231,10 @@ class RegistrationView(View):
             "form": form,
         }
         if form.is_valid():
-            u = form.save(commit=False)
-            u.set_password(form.cleaned_data['password'])
-            u.save()
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            messages.success(request, f'New account created: {user.username}')
             return redirect('login')
 
         return render(request, 'booking_rooms_app/form.html', ctx)
@@ -257,4 +259,5 @@ class AddCommentView(View):
             comment = form.save(commit=False)
             comment.author = request.user
             comment.save()
+            messages.success(request, f'Comment has been added')
             return redirect('about')
