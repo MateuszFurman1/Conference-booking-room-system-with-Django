@@ -14,6 +14,11 @@ from booking_rooms_app.models import Room, Reservation, Comment
 from django.urls import reverse, reverse_lazy
 
 
+def activateEmail(request, user, to_email):
+    messages.success(request, f'Dear <b>{user}</b>, please go to you email <b>{to_email}</b> inbox and click on \
+        received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
+
+
 class RoomView(View):
     def get(self, request):
         rooms = Room.objects.all()
@@ -235,6 +240,7 @@ class RegistrationView(View):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+            activateEmail(request, user, form.cleaned_data.get('email'))
             messages.success(request, f'New account created: {user.username}')
             return redirect('login')
 
