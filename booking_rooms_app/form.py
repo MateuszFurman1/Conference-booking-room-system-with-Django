@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import SelectDateWidget
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox
 
 from .models import Room, Reservation, Comment
 
@@ -46,6 +48,7 @@ class CommentForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=128)
     password = forms.CharField(max_length=128, widget=forms.PasswordInput)
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
 
 class RegistrationForm(forms.ModelForm):
@@ -60,3 +63,11 @@ class RegistrationForm(forms.ModelForm):
         cleaned_data = super().clean()
         if cleaned_data['password'] != cleaned_data['re_password']:
             raise ValidationError('Passwords are not the same!')
+
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'is_active', 'last_login', 'date_joined']

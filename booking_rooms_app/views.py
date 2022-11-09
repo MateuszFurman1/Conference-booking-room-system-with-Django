@@ -1,15 +1,16 @@
 import datetime
 from django.contrib import messages
 
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.http import HttpResponse
 
-from booking_rooms_app.form import RoomForm, ReservationForm, CommentForm, LoginForm, RegistrationForm
+from booking_rooms_app.form import RoomForm, ReservationForm, CommentForm, LoginForm, RegistrationForm, UserUpdateForm
 from booking_rooms_app.models import Room, Reservation, Comment
 from django.urls import reverse, reverse_lazy
 
@@ -207,7 +208,8 @@ class LoginView(View):
                 login(request, user)
                 messages.info(request, "Login successfully")
                 return redirect('home')
-            messages.error(request, "Wrong name or password!")
+        else:
+            messages.error(request, "Wrong name/password or reCAPTCHA test!")
             ctx = {
                 "form": form
             }
@@ -268,3 +270,30 @@ class AddCommentView(View):
             comment.save()
             messages.success(request, f'Comment has been added')
             return redirect('about')
+
+
+class ProfileView(View):
+    def get(self, request, username):
+
+        user = get_object_or_404(User, username=username)
+        if user:
+            form = UserUpdateForm(request.GET, instance=user)
+            ctx = {
+                'form': form
+            }
+            return render(request, "booking_rooms_app/profile.html", ctx)
+        return redirect('home')
+
+    def post(self, request, username):
+        user = request.user
+        form = UserUpdateForm(request.POST, instance=user)
+        ctx = {
+            'form': form
+        }
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Your profile has been updated!")
+            return redirect('profile', user.username)
+        messages.error(request, "Something goes wrong")
+        return render(request, 'booking_rooms_app/profile.html', ctx)
+
