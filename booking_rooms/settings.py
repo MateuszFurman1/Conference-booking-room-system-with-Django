@@ -139,7 +139,9 @@ SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_FROM = 'pythonlessonsX@gmail.com'
-EMAIL_HOST_USER = 'xxxx@gmail.com'
-EMAIL_HOST_PASSWORD = 'xxxx'
+EMAIL_HOST_USER = 'pythonlessonsX@gmail.com'
+EMAIL_HOST_PASSWORD = 'mipcgrabdwpfoxse'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+PASSWORD_RESET_TIMEOUT = 14400

@@ -1,7 +1,40 @@
 {% extends "booking_rooms_app/Base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="container text-center bg-danger" style="width: max-content">
+
+     <!-- Contact & Map -->
+    <section class="p-5">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md">
+            <h2 class="text-center mb-4">Contact Info</h2>
+            <ul class="list-group list-group-flush lead">
+              <li class="list-group-item">
+                <span class="fw-bold">Main Location:</span> Lindego 6, 60-101 Poznań
+              </li>
+              <li class="list-group-item">
+                <span class="fw-bold">Office Phone:</span> (333) 333-3333
+              </li>
+              <li class="list-group-item">
+                <span class="fw-bold">Office Email:</span>
+                office@test.test
+              </li>
+              <li class="list-group-item">
+                <span class="fw-bold">Marketing Email:</span>
+                marketing@test.test
+              </li>
+            </ul>
+          </div>
+          <div class="col-md">
+            <div id="map"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+<div>
+<h2 class="btn-primary text-center">Did you enjoy MeetingRoom? Give us feedback</h2>
+</div>
+        <div class="container text-center bg-danger" style="width: max-content">
         <h4>{{ message }}</h4>
     </div>
 <form action="{% url 'add-comment' %}" class="form-label text-center" method="POST">
@@ -19,5 +52,6 @@
         </li>
       {% endfor %}
     </div>
+
 
 {% endblock %}
