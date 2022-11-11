@@ -11,8 +11,8 @@
             <input type="text" id="seats" name="seats"></p>
         <p><input type="checkbox" id="projector" name="projector">
             <label for="projector">Projector Avalibility</label></p>
-        <input type="submit" class="btn btn-info text-white" name="Send">
-        <input type="submit" class="btn btn-info text-white" name="Cancel Search" value="Cancel Search">
+        <input type="submit" class="btn btn-primary text-white" name="Send">
+        <input type="submit" class="btn btn-primary text-white" name="Cancel Search" value="Cancel Search">
     </form>
     </div>
 </div>
@@ -36,9 +36,9 @@
                 Reservation: Avalibility
                 {% endif %}<br>
 <div class="btn-group mt-3">
-            <a href="{% url 'edit-room' %}?id={{ room.id }} " class="btn btn-info text-white"> Edit- </a>
-            <a href="{% url 'delete-room' %}?id={{ room.id }} " class="btn btn-info text-white"> Delete- </a>
-            <a href="{% url 'room-reserve' %}?id={{ room.id }} " class="btn btn-info text-white"> Reserve </a>
+            <a href="{% url 'edit-room' %}?id={{ room.id }} " class="btn btn-primary text-white"> Edit- </a>
+            <a href="{% url 'delete-room' %}?id={{ room.id }} " class="btn btn-primary text-white"> Delete- </a>
+            <a href="{% url 'room-reserve' %}?id={{ room.id }} " class="btn btn-primary text-white"> Reserve </a>
 </div>
 </div>
        </div>

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'booking_rooms_app',
     'crispy_forms',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -122,7 +123,25 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = '/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+RECAPTCHA_PUBLIC_KEY = '6LdnOvIiAAAAAGobzaP2uqGIz5Z9SKLABAeCHNL9'
+RECAPTCHA_PRIVATE_KEY = '6LdnOvIiAAAAAIxXorSl11695GJmPWTrRIld7CZi'
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_FROM = 'pythonlessonsX@gmail.com'
+EMAIL_HOST_USER = 'pythonlessonsX@gmail.com'
+EMAIL_HOST_PASSWORD = 'mipcgrabdwpfoxse'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+PASSWORD_RESET_TIMEOUT = 14400
