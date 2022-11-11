@@ -12,10 +12,10 @@
 * Add comment as feedback in about us section
 
 
-> **How to run**
-> clone repository
-> instal django crispy forms- pip install django-crispy-forms
-> pip install -r requirements.txt
+## Key Features
+* clone repository
+* instal django crispy forms- pip install django-crispy-forms
+* pip install -r requirements.txt
 
 
 ## Requirements
