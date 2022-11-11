@@ -13,7 +13,9 @@
 
 
 > **How to run**
-> clone
+> clone repository
+> instal django crispy forms- pip install django-crispy-forms
+> pip install -r requirements.txt
 
 
 ## Requirements
