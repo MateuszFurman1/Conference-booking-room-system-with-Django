@@ -294,6 +294,7 @@ class AddCommentView(View):
             return redirect('about')
 
 
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class ProfileView(View):
     def get(self, request, username):
 
