@@ -98,7 +98,7 @@ class AllRoomsView(View):
 
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
-class EditRoomView(LoginRequiredMixin, View):
+class EditRoomView(View):
     def get(self, request):
         id = request.GET.get('id')
         room = get_object_or_404(Room, pk=id)
@@ -112,7 +112,7 @@ class EditRoomView(LoginRequiredMixin, View):
     def post(self, request):
         id = request.POST.get('id')
         room = get_object_or_404(Room, pk=id)
-        form = RoomForm(request.POST or None, instance=room)
+        form = RoomForm(request.POST, instance=room)
         ctx = {
             'form': form
         }
@@ -154,9 +154,8 @@ class ReservationView(View):
         id = request.POST.get('id')
         room = get_object_or_404(Room, pk=id)
 
-        form = ReservationForm(request.POST or None)
+        form = ReservationForm(request.POST)
         form.instance.room = room
-        print(form.instance.date)
 
         if form.is_valid():
             if Reservation.objects.filter(room=room, date=form.instance.date):

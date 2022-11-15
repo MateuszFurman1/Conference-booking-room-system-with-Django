@@ -20,7 +20,7 @@
                         {% endif %}
       </p>
       <div class="btn-group">
-            <a href="{% url 'edit-room' %}?id={{ room.id }}" class="btn btn-primary text-white">Edit</a>
+            <a href="{% url 'edit-room' room_id %}?id={{ room.id }}" class="btn btn-primary text-white">Edit</a>
       <a href="{% url 'delete-room' %}?id={{ room.id }} " class="btn btn-primary text-white">Delete</a>
       <a href="{% url 'room-reserve' %}?id={{ room.id }}" class="btn btn-primary text-white">Reserve</a>
 </div>

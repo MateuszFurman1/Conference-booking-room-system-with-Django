@@ -13,17 +13,9 @@ def rooms():
         lst.append(p)
     return lst
 
-# @pytest.fixture
-# def oneMovie(persons):
-#     p = Movie.objects.create(title='Owoc który się nie kula', year=2022, director=persons[0])
-#     return p
-#
+
 @pytest.fixture
 def user():
     return User.objects.create(username='tadeusz')
 
 
-# @pytest.fixture
-# def user():
-#     u = User.objects.create(username='amadeusz')
-#     return u
