@@ -1,7 +1,7 @@
 import pytest
 from django.contrib.auth.models import User, Permission
 
-from booking_rooms_app.models import Room
+from booking_rooms_app.models import Room, Comment
 
 
 @pytest.fixture
@@ -17,5 +17,14 @@ def rooms():
 @pytest.fixture
 def user():
     return User.objects.create(username='tadeusz')
+
+
+@pytest.fixture
+def comments(user):
+    lst = []
+    for n in range(5):
+        p = Comment.objects.create(text=n, author=user)
+        lst.append(p)
+    return lst
 
 

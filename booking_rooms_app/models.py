@@ -28,7 +28,7 @@ class Reservation(models.Model):
 class Comment(models.Model):
     text = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
         return f'{self.author.first_name} {self.date}'
