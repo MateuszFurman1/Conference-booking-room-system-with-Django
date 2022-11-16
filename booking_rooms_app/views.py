@@ -156,15 +156,28 @@ class ReservationView(View):
 
         form = ReservationForm(request.POST)
         form.instance.room = room
+        reservations = room.reservation_set.filter(date__gte=str(datetime.date.today())).order_by('date')
+        date = datetime.date.today()
+        context = {
+            'room': room,
+            'form': form,
+            'reservations': reservations,
+            'date': date
+        }
 
         if form.is_valid():
             if Reservation.objects.filter(room=room, date=form.instance.date):
-                return messages.error('Reservation exist')
+                messages.error(request, 'Reservation exist')
+                return render(request, 'booking_rooms_app/Reservation.html', context)
             elif form.instance.date < datetime.date.today():
-                return messages.error('Date is from the past')
+                messages.error(request, 'Date is from the past')
+                return render(request, 'booking_rooms_app/Reservation.html', context)
             form.save()
             messages.success(request, f"Reservation has been made")
-        return redirect(reverse('all-rooms'))
+            return redirect(reverse('all-rooms'))
+        messages.error(request, 'Something goes wrong. Please repeat reservation')
+
+        return render(request, 'booking_rooms_app/Reservation.html', context)
 
 
 class DetailView(View):
@@ -290,7 +303,7 @@ class AddCommentView(View):
             comment.author = request.user
             comment.save()
             messages.success(request, f'Comment has been added')
-            return redirect('about')
+        return redirect('about')
 
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
@@ -298,16 +311,15 @@ class ProfileView(View):
     def get(self, request, username):
 
         user = get_object_or_404(User, username=username)
-        if user:
-            form = UserUpdateForm(request.GET, instance=user)
-            ctx = {
-                'form': form
-            }
-            return render(request, "booking_rooms_app/profile.html", ctx)
-        return redirect('home')
+        form = UserUpdateForm(instance=user)
+        ctx = {
+            'form': form,
+            'username': username
+        }
+        return render(request, "booking_rooms_app/profile.html", ctx)
 
     def post(self, request, username):
-        user = request.user
+        user = get_object_or_404(User, username=username)
         form = UserUpdateForm(request.POST, instance=user)
         ctx = {
             'form': form
