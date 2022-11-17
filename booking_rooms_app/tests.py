@@ -179,17 +179,18 @@ def test_login_get_view():
 
 
 @pytest.mark.django_db
-def test_login_post_view_with_log(user):
+def test_login_post_view_invalid_with_log():
     client = Client()
     url = reverse('login')
-    client.force_login(user)
     data = {
         'username': 'test',
         'password': 'test',
         # 'captcha': True
     }
     response = client.post(url, data)
-    assert response.status_code == 302
+    assert response.status_code == 200
+    assert isinstance(response.context['form'], LoginForm)
+    assert len(User.objects.all()) == 0
 
 
 @pytest.mark.django_db
