@@ -1,5 +1,5 @@
 
-![image](https://user-images.githubusercontent.com/106817902/201361780-66468099-7400-497d-a2b1-fbedb92ff458.png)
+![image](https://user-images.githubusercontent.com/106817902/203418984-6230a506-5fe1-4e7e-a3df-d779f5eb943e.png)
 
 ## Key Features
 
