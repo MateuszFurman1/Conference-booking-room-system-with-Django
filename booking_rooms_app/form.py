@@ -50,7 +50,7 @@ class CommentForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=128)
     password = forms.CharField(max_length=128, widget=forms.PasswordInput)
-    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+    captcha = CaptchaField(widget=ReCaptchaV2Checkbox())
 
 
 class RegistrationForm(forms.ModelForm):
