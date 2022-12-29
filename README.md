@@ -14,8 +14,8 @@
 
 ## How to run
 * clone repository
-* instal django crispy forms- pip install django-crispy-forms
-* pip install -r requirements.txt
+* go to Settings-> Project-> Python Interprete-> add interpreter-> add local interpreter
+* terminal: pip install -r requirements.txt
 
 
 ## Requirements
