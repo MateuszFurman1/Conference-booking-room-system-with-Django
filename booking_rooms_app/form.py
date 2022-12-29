@@ -2,9 +2,11 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import SelectDateWidget
-from captcha.fields import ReCaptchaField
+try:
+  from captcha.fields import ReCaptchaField
+except ImportError:
+  from captcha.fields import CaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
-
 from .models import Room, Reservation, Comment
 
 
