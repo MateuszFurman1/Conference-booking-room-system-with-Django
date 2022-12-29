@@ -16,6 +16,17 @@
 * clone repository
 * go to Settings-> Project-> Python Interprete-> add interpreter-> add local interpreter
 * terminal: pip install -r requirements.txt
+* create local_settings.py file like bellow in main directory:
+   DATABASES = {
+      'default': {
+          'HOST': '127.0.0.1',
+          'NAME': 'conferenceBookingRoom',
+          'ENGINE': 'django.db.backends.postgresql',
+          'USER': '#user name for ur database',
+          'PASSWORD': '#password for ur database',
+      }
+  }
+* open pgadmin and type create database conferenceBookingRoom
 
 
 ## Requirements
