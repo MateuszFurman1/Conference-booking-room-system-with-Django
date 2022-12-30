@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-
+from django.conf.urls import include
 from booking_rooms_app.views import RoomView, CreateRoomView, AllRoomsView, DetailView, EditRoomView, DeleteRoomView, \
     ReservationView, SearchView, AddCommentView, LoginView, LogoutView, RegistrationView, AboutView, ProfileView, \
     activate
