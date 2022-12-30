@@ -2,11 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import SelectDateWidget
-try:
-  from captcha.fields import ReCaptchaField
-except ImportError:
-  from captcha.fields import CaptchaField
-from captcha.widgets import ReCaptchaV2Checkbox
+from captcha.fields import CaptchaField
 from .models import Room, Reservation, Comment
 
 
@@ -50,7 +46,7 @@ class CommentForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=128)
     password = forms.CharField(max_length=128, widget=forms.PasswordInput)
-    captcha = CaptchaField(widget=ReCaptchaV2Checkbox())
+    captcha = CaptchaField()
 
 
 class RegistrationForm(forms.ModelForm):

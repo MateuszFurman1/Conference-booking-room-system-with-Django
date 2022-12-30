@@ -5,6 +5,8 @@
 <form action="" class="form-label text-center" method="POST">
     {% csrf_token %}
     {{ form|crispy }}
+{#    <script src='https://www.google.com/recaptcha/api.js'></script>#}
+{#    <div class="g-recaptcha" data-sitekey="6LepibsjAAAAAOVaeP8k_I_bSeYu4orMxd5OUt0-"></div>#}
     <input type="submit" value="Send" class="btn btn-primary">
 </form>
 

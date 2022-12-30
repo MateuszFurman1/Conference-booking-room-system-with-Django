@@ -74,20 +74,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'booking_rooms.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'HOST': '127.0.0.1',
-        'NAME': 'project',
-        'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -133,8 +119,8 @@ LOGIN_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-RECAPTCHA_PUBLIC_KEY = '6LdnOvIiAAAAAGobzaP2uqGIz5Z9SKLABAeCHNL9'
-RECAPTCHA_PRIVATE_KEY = '6LdnOvIiAAAAAIxXorSl11695GJmPWTrRIld7CZi'
+RECAPTCHA_PUBLIC_KEY = '6LepibsjAAAAAOVaeP8k_I_bSeYu4orMxd5OUt0-'
+RECAPTCHA_PRIVATE_KEY = '6LepibsjAAAAAFA0uflfnF5_zCK10zH9Wd-Kg0rE'
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
