@@ -36,6 +36,6 @@ urlpatterns = [
     path('reistration/', RegistrationView.as_view(), name='registration'),
     path('about/', AboutView.as_view(), name='about'),
     path('profile/<str:username>', ProfileView.as_view(), name='profile'),
-path('activate/<uidb64>/<token>', activate, name='activate'),
+    path('activate/<uidb64>/<token>', activate, name='activate'),
     path('captcha/', include('captcha.urls')),
 ]

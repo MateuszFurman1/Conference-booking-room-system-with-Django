@@ -14,7 +14,7 @@
 
 ## How to run
 * clone repository
-* go to Settings-> Project-> Python Interprete-> add interpreter-> add local interpreter
+* go to Settings-> Project-> Python Interpreter-> add interpreter-> add local interpreter
 * terminal: pip install -r requirements.txt
 * create local_settings.py file like bellow in main directory:
    DATABASES = {
@@ -32,15 +32,21 @@
 * go to http://127.0.0.1:8000/home/
 
 
-
 ## Requirements
-
-* asgiref==3.5.2
+* asgiref==3.6.0
 * Django==4.1.3
 * django-crispy-forms==1.14.0
-* django-recaptcha==3.0.0
+* django-factory-boy==1.0.0
+* django-simple-captcha==0.5.17
+* django_debug_toolbar==3.8.1
+* factory-boy==3.2.1
+* Faker==15.3.4
 * Pillow==9.3.0
 * psycopg2-binary==2.9.5
+* py==1.11.0
+* pytest==7.2.0
+* pytest-django==4.5.2
+* python-dateutil==2.8.2
 * six==1.16.0
 * sqlparse==0.4.3
-* bootstrap
+* tzdata==2022.7

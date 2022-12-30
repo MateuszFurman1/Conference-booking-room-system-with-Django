@@ -132,6 +132,10 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 PASSWORD_RESET_TIMEOUT = 14400
 
+DJANGO_SETTINGS_MODULE=booking_rooms.settings
+
+
+
 try:
     from local_settings import DATABASES
 except ModuleNotFoundError:
