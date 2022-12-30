@@ -10,7 +10,6 @@ from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.http import HttpResponse
-
 from booking_rooms_app.form import RoomForm, ReservationForm, CommentForm, LoginForm, RegistrationForm, UserUpdateForm
 from booking_rooms_app.models import Room, Reservation, Comment
 from django.urls import reverse
@@ -18,7 +17,6 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
-
 from .tokens import account_activation_token
 
 
