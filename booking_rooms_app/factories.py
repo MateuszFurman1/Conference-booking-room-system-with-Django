@@ -1,32 +1,35 @@
-# import os
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "booking_rooms.settings")
-# import django
-# django.setup()
-# from django.core.management import call_command
-from booking_rooms_app.models import User, Comment
+from booking_rooms_app.models import Comment
 import factory
+from factory.faker import Faker
 from factory.django import DjangoModelFactory
-from faker import Faker
-
-faker = Faker()
-
 from django.contrib.auth.models import User
+from factory import Sequence, PostGenerationMethodCall
+from booking_rooms_app.models import Room
 
-class UserFactory(DjangoModelFactory):
+class RoomFactory(DjangoModelFactory):
     class Meta:
-        model = User
+        model = Room
 
-    username = factory.Faker('username')
-    password = '123'
-    is_staff = True
-    is_active = True
+    name = 'test'
+    seats = 'test'
+    projector = True
 
-u = UserFactory()
-print(u)
+# class UserFactory(DjangoModelFactory):
+#
+#     class Meta:
+#         model = 'booking_rooms.User'
+#
+#     first_name = 'test'
+#     last_name = 'test'
+#     username = 'test'
+#     password = PostGenerationMethodCall('set_password', 'secret')
+#
+# u = UserFactory()
+# print(u)
 
-# class CommentFactory(factory.django.DjangoModelFactory):
+# class CommentFactory(DjangoModelFactory):
 #     class Meta:
 #         model = Comment
 #         text = models.TextField()
-#         author = models.ForeignKey(User, on_delete=models.CASCADE)
-#         date
+#         author = factory.SubFactory(UserFactory)
+#         date =

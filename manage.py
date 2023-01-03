@@ -2,8 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
-
+from django.core.management import call_command
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'booking_rooms.settings')
