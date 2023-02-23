@@ -1,35 +1,33 @@
-from booking_rooms_app.models import Comment
 import factory
-from factory.faker import Faker
-from factory.django import DjangoModelFactory
-from django.contrib.auth.models import User
-from factory import Sequence, PostGenerationMethodCall
-from booking_rooms_app.models import Room
+from django.utils import timezone
 
-class RoomFactory(DjangoModelFactory):
+from .models import Room, Reservation, Comment
+
+
+class RoomFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Room
 
-    name = 'test'
-    seats = 'test'
-    projector = True
+    name = factory.Faker('word')
+    seats = factory.Faker('pyint', min_value=1, max_value=50)
+    projector = factory.Faker('pybool')
+    updated = factory.Faker('date_time_this_month', tzinfo=timezone.utc)
+    created = factory.Faker('date_time_this_month', tzinfo=timezone.utc)
 
-# class UserFactory(DjangoModelFactory):
-#
-#     class Meta:
-#         model = 'booking_rooms.User'
-#
-#     first_name = 'test'
-#     last_name = 'test'
-#     username = 'test'
-#     password = PostGenerationMethodCall('set_password', 'secret')
-#
-# u = UserFactory()
-# print(u)
 
-# class CommentFactory(DjangoModelFactory):
-#     class Meta:
-#         model = Comment
-#         text = models.TextField()
-#         author = factory.SubFactory(UserFactory)
-#         date =
+class ReservationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Reservation
+
+    date = factory.Faker('date_between', start_date='+1d', end_date='+7d')
+    comment = factory.Faker('sentence')
+    room = factory.SubFactory(RoomFactory)
+
+
+class CommentFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Comment
+
+    text = factory.Faker('text')
+    author = factory.SubFactory('users.factories.UserFactory')
+    date = factory.Faker('date_time_this_month', tzinfo=timezone.utc)
