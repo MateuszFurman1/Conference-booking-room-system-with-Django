@@ -1,5 +1,5 @@
+https://user-images.githubusercontent.com/106817902/221347567-afe711be-a6f5-498d-967e-c3fbab7c99a9.mp4
 
-![image](https://user-images.githubusercontent.com/106817902/203418984-6230a506-5fe1-4e7e-a3df-d779f5eb943e.png)
 
 ## Key Features
 
@@ -27,7 +27,8 @@
       }
   }
 * open pgadmin and type create database conferenceBookingRoom
-* terminal: python manage.py migrate 
+* terminal: python manage.py migrate v
+* terminal: python manage.py seed_db- to create dummy data
 * terminal: python manage.py runserver
 * go to http://127.0.0.1:8000/home/
 
