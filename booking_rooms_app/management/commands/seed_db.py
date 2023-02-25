@@ -7,5 +7,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         with transaction.atomic():
-            reservation = ReservationFactory.create_batch(1)
+            reservation = ReservationFactory.create_batch(5)
             comment = CommentFactory.create_batch(5)

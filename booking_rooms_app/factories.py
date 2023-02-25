@@ -1,7 +1,18 @@
 import factory
 from django.utils import timezone
-
+from django.contrib.auth import get_user_model
 from .models import Room, Reservation, Comment
+
+
+class UserFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = get_user_model()
+
+    username = factory.Faker('user_name')
+    email = factory.Faker('email')
+    first_name = factory.Faker('first_name')
+    last_name = factory.Faker('last_name')
+    password = factory.PostGenerationMethodCall('set_password', 'mypassword')
 
 
 class RoomFactory(factory.django.DjangoModelFactory):
@@ -29,5 +40,5 @@ class CommentFactory(factory.django.DjangoModelFactory):
         model = Comment
 
     text = factory.Faker('text')
-    author = factory.SubFactory('users.factories.UserFactory')
+    author = factory.SubFactory(UserFactory)
     date = factory.Faker('date_time_this_month', tzinfo=timezone.utc)
