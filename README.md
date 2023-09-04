@@ -11,6 +11,10 @@ https://user-images.githubusercontent.com/106817902/221347567-afe711be-a6f5-498d
 * Search for conference room by name, capacity and projector avalibility
 * Add comment as feedback in about us section
 
+App, which user can book conference room. User also can add text message to booking order, change profile, see available room and search for rooms. Registration system requires email approval to be an active user. Pytest covers all views with fixtures.
+Tools & technologies used in project:
+python, django framework, postgreSQL, pytest, Bootstrap, HTML, CSS, pycharm
+
 
 ## How to run
 * clone repository
